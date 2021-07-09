@@ -1,24 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import Hm from "./Components/Human";
+import HmID from "./Components/HumanId";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { useContext, useState, useEffect } from "react";
+import { HumanContext } from "./Contexts/HumanContext";
+import { AuthContext } from "./Contexts/AuthContext";
 
-function App() {
+function App(props) {
+  const Jean__ = useContext(HumanContext);
+  const [Jean, setJean] = useState(Jean__);
+  const _authContext = useContext(AuthContext);
+  const [isAuth, setIsAuth] = useState(_authContext.isAuthenticated);
+  const ChangeInforJeans = (event) => {
+    setJean({ name: event.target.value, age: 14 });
+  };
+  const __show = () => {
+    setIsAuth(!isAuth);
+  };
+  // useEffect(() => {
+  //   isAuth === true ? alert("Login successful !") : alert("Log Out ok !");
+  // }, [isAuth]);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+    <>
+      <Hm
+        name={Jean.name}
+        age="32"
+        Jeans={Jean}
+        ChangeInforJeans={ChangeInforJeans}
+        isAuth={isAuth}
+        __show={__show}
+      >
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+          Peter have a children, her name is {Jean.name} and she is {Jean.age}{" "}
+          year old !
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      </Hm>
+      <HmID show={isAuth} person={Jean} />
+    </>
   );
 }
 
