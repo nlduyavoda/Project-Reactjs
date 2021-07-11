@@ -1,9 +1,10 @@
-import { DELETE_PERSON, RESET_ARR, GET_PERSON } from "./type";
+import { DELETE_PERSON, RESET_PERSON, GET_PERSON } from "./type";
 
 export const HumanReducer = (state, action) => {
   const { type, payload } = action;
   switch (action.type) {
-    case GET_PERSON:
+    case RESET_PERSON:
+      state = localStorage.setItem(1, payload.name);
       return state;
     case DELETE_PERSON:
       return state.filter((item) => item.id !== payload.id);

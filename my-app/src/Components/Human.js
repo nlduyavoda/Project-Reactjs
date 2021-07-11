@@ -2,9 +2,10 @@ import React, { useContext, useState } from "react";
 import { Button } from "react-bootstrap";
 import { HumanContext } from "../Contexts/HumanContext";
 import { themeContexts } from "../Contexts/ThemeContext";
+import Formperson from "../Components/Form_person";
 const Human = (props) => {
   const testContext = useContext(themeContexts);
-  const { person, HandleReset } = useContext(HumanContext);
+  const { person, HandleSave } = useContext(HumanContext);
   const [person_, setPerson] = useState(person);
   const { isTheme, light, dark } = testContext.theme;
   const [mode, setmode] = useState(isTheme);
@@ -34,21 +35,20 @@ const Human = (props) => {
       <h1>
         his name is {person_[0].name} - his age is {person_[0].age}
       </h1>
-
       <p>{props.children}</p>
       <input
         type="text"
         value={props.name}
         onChange={props.ChangeInforJeans}
         placeholder="Change Jeans name"
-      />
+      />{" "}
       {ButtonLogin}
       <Button
         id="btn__show"
-        onClick={() => HandleReset()}
+        onClick={() => HandleSave(props.name)}
         className="btn btn-info"
       >
-        Reset State
+        Save
       </Button>
       <Button id="btn__show" onClick={() => changeModeColor()}>
         Change Color

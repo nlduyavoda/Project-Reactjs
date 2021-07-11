@@ -1,36 +1,36 @@
 import { Button } from "react-bootstrap";
-import { useContext, useReducer, useState } from "react";
+import { useContext, useEffect, useReducer, useState } from "react";
 import { HumanContext } from "../Contexts/HumanContext";
 import { HumanReducer } from "../Reducer/HumanReducer";
+import Formperson from "../Components/Form_person";
+import { FormReducer } from "../Reducer/FormReducer";
+import { GET_FORM } from "../Reducer/type";
 
 const HumanId = (props) => {
-  const { Jean, HandleDelete, newarr__ } = useContext(HumanContext);
-  const [ArrPerson, setArrPerson] = useState(Jean);
-  const [Arr_, dispatch] = useReducer(HumanReducer, {Arr_:[]});
-  console.log(Arr_);
-  let classes = [];
-  if (ArrPerson.length < 1) {
-    classes.push("red", "bold");
-  }
+  const { HandleDelete } = useContext(HumanContext);
+  const initialValues = [];
+  const [state, dispatch] = useReducer(FormReducer, initialValues);
+  useEffect(() => {
+    dispatch({ type: GET_FORM, payload: null });
+  }, []);
 
   let ListView = null;
   if (props.show === true) {
     ListView = (
       <div>
-        {newarr__.map((item, index) => {
+        {state.map((item, index) => {
+          let classes = [];
+          if (state.length <= 1) {
+            classes.push("red", "bold");
+          }
           return (
             <div className="container" id="c2" key={index}>
               <h2 className={classes.join(" ")}> Personal ID: {item.id}</h2>
               <div className="container">
                 <p> Name : {item.name}</p>
-                <p> Age: 13</p>
-                <p>
-                  {" "}
-                  Description: Lorem ipsum dolor sit amet consectetur
-                  adipisicing elit. Illo harum velit tenetur cupiditate
-                  dignissimos sed ad maiores excepturi accusantium corporis.
-                  Quis, doloribus aut facere qui eaque modi animi nobis id.
-                </p>
+                <p> Age: {item.age}</p>
+                <div>Hobbies</div>
+                <p>{item.cookie}</p>
               </div>
 
               <Button
@@ -46,7 +46,12 @@ const HumanId = (props) => {
         })}
       </div>
     );
-  }
+  } else
+    ListView = (
+      <div>
+        <Formperson></Formperson>
+      </div>
+    );
   return <>{ListView}</>;
 };
 export default HumanId;

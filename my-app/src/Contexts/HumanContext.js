@@ -1,6 +1,6 @@
 import { createContext, useEffect, useReducer, useState } from "react";
 import { HumanReducer } from "../Reducer/HumanReducer";
-import { DELETE_PERSON, GET_PERSON } from "../Reducer/type";
+import { DELETE_PERSON, GET_PERSON, RESET_PERSON } from "../Reducer/type";
 export const HumanContext = createContext();
 const HumanContextProvider = ({ children }) => {
   const [Jean, setJean] = useState([
@@ -14,23 +14,26 @@ const HumanContextProvider = ({ children }) => {
   ]);
 
   const initial = Jean;
-  const [newarr__, dispatch] = useReducer(HumanReducer, initial);
+  const [state, dispatch] = useReducer(HumanReducer, initial);
 
   const HandleDelete = (id) => {
     dispatch({ type: DELETE_PERSON, payload: { id } });
-    setJean(newarr__);
+    setJean(state);
+  };
+  const HandleSave = (item) => {
+    dispatch({ type: RESET_PERSON, payload: {name: item.name } });
   };
 
   useEffect(() => {
     dispatch({ type: GET_PERSON });
-    console.log("UseEffect");
   }, [Jean]);
 
   const HumanContextData = {
     Jean,
-    newarr__,
+    state,
     person,
     HandleDelete,
+    HandleSave,
   };
   return (
     <HumanContext.Provider value={HumanContextData}>
